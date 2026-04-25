@@ -8,7 +8,6 @@ import java.util.List;
 
 @Service
 public class UsuarioService {
-
     private final UsuarioRepository repository;
 
     public UsuarioService(UsuarioRepository repository) {
@@ -25,5 +24,14 @@ public class UsuarioService {
 
     public void deletar(Long id) {
         repository.deleteById(id);
+    }
+
+    public Usuario atualizar(Long id, Usuario usuarioAtualizado) {
+        Usuario usuario = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        usuario.setNome(usuarioAtualizado.getNome());
+
+        return repository.save(usuario);
     }
 }
