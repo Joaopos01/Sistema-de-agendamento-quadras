@@ -7,6 +7,7 @@ import com.quadras.agendamento.repository.AgendamentoRepository;
 import com.quadras.agendamento.repository.QuadraRepository;
 import com.quadras.agendamento.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
+import java.time.LocalDateTime;
 
 import java.util.List;
 
@@ -29,8 +30,16 @@ public class AgendamentoService {
 
     public Agendamento salvar(Long usuarioId, Long quadraId, Agendamento agendamento) {
 
+        if (agendamento.getDataHora() == null) {
+            throw new RuntimeException("Data e hora são obrigatórias");
+        }
+
         if (agendamentoRepository.existsByQuadraIdAndDataHora(quadraId, agendamento.getDataHora())) {
             throw new RuntimeException("Horário já reservado para essa quadra");
+        }
+
+        if (agendamento.getDataHora().isBefore(LocalDateTime.now())) {
+            throw new RuntimeException("Não é possível agendar um horário no passado");
         }
 
         Usuario usuario = usuarioRepository.findById(usuarioId)
@@ -53,3 +62,4 @@ public class AgendamentoService {
         agendamentoRepository.deleteById(id);
     }
 }
+
