@@ -25,6 +25,11 @@ public class AgendamentoController {
         return service.salvar(usuarioId, quadraId, agendamento);
     }
 
+    @GetMapping("/quadra/{quadraId}")
+    public List<Agendamento> listarPorQuadra(@PathVariable Long quadraId) {
+        return service.listarPorQuadra(quadraId);
+    }
+
     @GetMapping
     public List<Agendamento> listar() {
         return service.listar();

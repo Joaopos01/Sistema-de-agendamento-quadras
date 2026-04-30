@@ -30,6 +30,7 @@ public class AgendamentoService {
 
     public Agendamento salvar(Long usuarioId, Long quadraId, Agendamento agendamento) {
 
+
         if (agendamento.getDataHora() == null) {
             throw new RuntimeException("Data e hora são obrigatórias");
         }
@@ -60,6 +61,10 @@ public class AgendamentoService {
 
     public void deletar(Long id) {
         agendamentoRepository.deleteById(id);
+    }
+
+    public List<Agendamento> listarPorQuadra(Long quadraId) {
+        return agendamentoRepository.findByQuadraId(quadraId);
     }
 }
 
